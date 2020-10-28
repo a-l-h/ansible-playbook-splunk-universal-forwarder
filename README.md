@@ -1,7 +1,4 @@
-# Ansible Playbook for Splunk Universal Forwarder
-
-![test1](./logo.svg)
-![test2](logo.svg)
+# ![](logo.svg) Ansible Playbook for Splunk Universal Forwarder
 
 Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers
 

@@ -76,3 +76,6 @@ Push an app to disable mgmt port
 Explain random admin pwd
 nothing in system/local -> cannot be managed
 Explain bash propfile ?
+
+usage all vars as extra var
+stop if not defined

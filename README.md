@@ -6,13 +6,18 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers
 ```
 📦 ansible-playbook-splunk-universal-forwarder
  ┣ 📂 roles
- ┃ ┗ 📂 common
- ┃   ┗ 📂 files
- ┃   ┃ ┗ 🗄️ org_all_deploymentclient.tgz
+ ┃ ┗ 📂 controller
+ ┃ ┃ ┗ 📂 defaults
+ ┃ ┃ ┃ ┗ 📜 main.yml
+ ┃ ┃ ┗ 📂 tasks
+ ┃ ┃   ┗ 📜 main.yml
+ ┃ ┗ 📂 forwarders
+ ┃   ┗ 📂 defaults
+ ┃   ┃ ┗ 📜 main.yml
  ┃   ┗ 📂 tasks
  ┃     ┗ 📜 main.yml
- ┣ 📜 README.md
- ┗ 📜 main.yml
+ ┣ 📜 deploy-splunk_uf.yml
+ ┗ 📜 README.md
  ```
 
 ## Playbook main steps

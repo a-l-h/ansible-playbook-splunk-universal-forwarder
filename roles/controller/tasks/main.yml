@@ -1,52 +1,41 @@
 ---
-########## Check Splunk UF TGZ file 
-- name: Download Splunk UF on Ansible Controller
-  hosts: 127.0.0.1
-  connection: local
-  vars:
-    splunk_uf_become_method: 'sudo'
-  tasks:
-    - name: Download Splunk UF latest version
-      get_url:
-        url: https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=latest&product=universalforwarder&filename=.tgz&wget=true
-        dest: "{{ playbook_dir }}/roles/forwarders/files/"
-        mode: 0644
-      register: splunk_uf_downloaded_tgz
-      become: yes
-      become_method: "{{ splunk_uf_become_method }}"
-    
-    - name: Get Splunk UF TGZ filename and version from dowloaded TGZ file
-      set_fact: 
-        splunk_uf_tgz_filename: "{{ splunk_uf_downloaded_tgz.dest | regex_search('(splunkforwarder-.+-Linux-x86_64.tgz)') }}"
-        splunk_uf_tgz_version: "{{ splunk_uf_downloaded_tgz.dest | regex_findall('splunkforwarder-([0-9.]+)') }}"
-        
-    - name: Download Splunk UF '{{ splunk_uf_tgz_version }}' MD5 file 
-      get_url:
-        url: "https://download.splunk.com/products/universalforwarder/releases/{{ splunk_uf_tgz_version[0] }}/linux/{{ splunk_uf_tgz_filename }}.md5"
-        dest: "{{ playbook_dir }}/roles/forwarders/files/"
-        mode: 0644
-      register: splunk_uf_downloaded_md5
-      become: yes
-      become_method: "{{ splunk_uf_become_method }}"
-        
-    - name: Read downloaded MD5 file
-      slurp:
-        src: "{{ splunk_uf_downloaded_md5.dest }}"
-      register: splunk_uf_downloaded_md5_content
-      
-    - name: Get Splunk UF '{{ splunk_uf_tgz_version[0] }}' MD5 hash from downloaded MD5 file
-      set_fact: 
-        splunk_uf_downloaded_md5_hash: "{{ splunk_uf_downloaded_md5_content['content'] | b64decode | regex_findall('= ([a-z0-9]{32})') }}"
+########## Download Splunk UF
 
-    - name: End play because MD5 hash check failed for Splunk UF TGZ file 
-      meta: end_play   
-      when: splunk_uf_downloaded_tgz.md5sum != splunk_uf_downloaded_md5_hash[0]
+- name: Download Splunk UF latest version
+  get_url:
+    url: https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=latest&product=universalforwarder&filename=.tgz&wget=true
+    dest: "{{ playbook_dir }}/roles/forwarders/files/"
+    mode: 0644
+  register: splunk_uf_downloaded_tgz
+  become: yes
+  become_method: "{{ controller_become_method }}"
+  
+########## Check MD5 hash 
+
+- name: Get Splunk UF TGZ filename and version from dowloaded TGZ file
+  set_fact: 
+    splunk_uf_tgz_filename: "{{ splunk_uf_downloaded_tgz.dest | regex_search('(splunkforwarder-.+-Linux-x86_64.tgz)') }}"
+    splunk_uf_tgz_version: "{{ splunk_uf_downloaded_tgz.dest | regex_findall('splunkforwarder-([0-9.]+)') }}"
+        
+- name: Download Splunk UF {{ splunk_uf_tgz_version[0] }} MD5 file 
+  get_url:
+    url: "https://download.splunk.com/products/universalforwarder/releases/{{ splunk_uf_tgz_version[0] }}/linux/{{ splunk_uf_tgz_filename }}.md5"
+    dest: "{{ playbook_dir }}/roles/forwarders/files/"
+    mode: 0644
+  register: splunk_uf_downloaded_md5
+  become: yes
+  become_method: "{{ controller_become_method }}"
+        
+- name: Read downloaded MD5 file
+  slurp:
+    src: "{{ splunk_uf_downloaded_md5.dest }}"
+  register: splunk_uf_downloaded_md5_content
       
-- name: Install Splunk UF on target servers
-  hosts: servers
-  vars:
-    splunk_uf_tgz_filename: "{{ splunk_uf_tgz_filename }}"
-    splunk_uf_tgz_version: "{{ splunk_uf_tgz_version }}"
-  roles:
-    - forwarders
+- name: Get Splunk UF {{ splunk_uf_tgz_version[0] }} MD5 hash from downloaded MD5 file
+  set_fact: 
+    splunk_uf_downloaded_md5_hash: "{{ splunk_uf_downloaded_md5_content['content'] | b64decode | regex_findall('= ([a-z0-9]{32})') }}"
+
+- name: End play because MD5 hash check failed for Splunk UF TGZ file 
+  meta: end_play   
+  when: splunk_uf_downloaded_tgz.md5sum != splunk_uf_downloaded_md5_hash[0]
 ...

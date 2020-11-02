@@ -5,7 +5,7 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Red Hat server
 - The only App configured locally is the Deployment Client App
 - Every other configuration is managed from the Deployment Server
 - Any unmanageable configuration file is removed from `/etc/system/local`
-- Admin password is randomized because it is not needed
+- As it is not needed in most scenarios, admin password is randomized
 
 **Content**
 ```

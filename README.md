@@ -33,7 +33,8 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers 
 
 ### On target servers
 
-########## Check target server redhat x64c 64-bit server
+- Proceed if target is a 64-bit server
+- Proceed if target is a Red Hat server
 
 #### User/Group
 
@@ -46,7 +47,7 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers 
 - Unpack Splunk Universal Forwarder TGZ file
 - Create Deployment Client base App
 - Remove any unneeded configuration file from `/etc/system/local`
-- Transfer `/apps/splunkcx2/splunkforwarder` ownership to splunk user
+- Transfer `/opt/splunkforwarder` ownership to splunk user
 - Set Splunk user bash profile
 - Start Splunk, accept license and set a random admin password
 - Set OS to start Splunk UF at boot time
@@ -56,43 +57,38 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers 
 1. Clone repository from your Ansible Controller server
 
 ```
-git clone ...
+git clone https://github.com/a-l-h/ansible-playbook-splunk-universal-forwarder.git
 ```
-2. Adjust variables as needed ./main.yml
 
-| variable                      | example value                                       |
-|-                              |-                                                    |
-| splunk_uf_tgz                 | splunkforwarder-8.0.6-152fb4b2bb96-Linux-x86_64.tgz |
-| splunk_ds_fqdn                | mycomp.ds                                           |
-| splunk_ds_port                | 8089                                                |
-| splunk_install_dir            | /opt                                                |
-| splunk_user                   | splunk                                              |
-| splunk_user_group             | splunk                                              |
-| privilege_escalation          | sudo                                                |
+2. Adjust variables as needed from each role's `defaults/main.yml` file
 
-company acronym
+#### controller
 
-2. Add latest splunk forwarder to ./roles/common/files
+| variable                 | default value             |
+|-                         |-                          |
+| controller_become_method | sudo                      |
 
-```
-wget ...
-```
+#### forwarders
+
+| variable                 | default value             |
+|-                         |-                          |
+| splunk_uf_install_dir    | /opt                      |
+| splunk_uf_user           | splunk                    |
+| splunk_uf_user_group     | splunk                    |
+| splunk_uf_become_method  | sudo                      |
+| company_acronym          | org                       |
+| splunk_ds_fqdn           | org.deploymentserver.fqdn |
+| splunk_ds_port           | 8089                      |
+
 3. Add target Linux servers in your Ansible inventory
 
-4. Launch playbook with 
+```
+[servers]
+<target servers>
+```
+
+4. Launch playbook
 
 ```
-ansible-playbook
+ansible-playbook -i <inventory> ansible-playbook-splunk-universal-forwarder/deploy-splunk_uf.yml -v
 ```
-
-Explanations
-
-Best practice to only have deploymentclient conf from the universal forwarder
-Then form the DS, push output / inputs App
-Push an app to disable mgmt port
-Explain random admin pwd
-nothing in system/local -> cannot be managed
-Explain bash propfile ?
-
-usage all vars as extra var
-stop if not defined

@@ -1,0 +1,4 @@
+---
+# Variable for controller role
+controller_become_method: 'sudo'
+...

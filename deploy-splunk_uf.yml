@@ -1,0 +1,12 @@
+---
+- name: Download Splunk UF on Ansible Controller
+  hosts: 127.0.0.1
+  connection: local
+  roles:
+    - controller
+
+- name: Install Splunk UF on target servers
+  hosts: servers
+  roles:
+    - forwarders
+...

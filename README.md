@@ -81,7 +81,7 @@ git clone https://github.com/a-l-h/ansible-playbook-splunk-universal-forwarder.g
 | splunk_ds_fqdn           | org.deploymentserver.fqdn |
 | splunk_ds_port           | 8089                      |
 
-3. Add target Linux servers in your Ansible inventory
+3. Add target Red Hat servers in your Ansible inventory
 
 ```
 [servers]

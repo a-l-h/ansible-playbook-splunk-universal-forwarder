@@ -98,4 +98,4 @@ ansible-playbook -i <inventory> ansible-playbook-splunk-universal-forwarder/depl
 
 - An App that outputs data to your Splunk Indexer(s) (`outputs.conf`)
 - Apps that handle data inputs (`inputs.conf`)
-- And App that disables Splunk UF management port because it is not used
+- An App that disables Splunk UF management port because it is not used

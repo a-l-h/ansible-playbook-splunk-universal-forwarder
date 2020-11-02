@@ -26,22 +26,22 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers 
 
 ## Playbook main steps
 
-### On Ansible controller
+#### On Ansible controller
 
 - Download Splunk UF latest version
 - Check MD5 hash
 
-### On target servers
+#### On target servers
 
 - Proceed if target is a 64-bit server
 - Proceed if target is a Red Hat server
 
-#### User/Group
+##### User/Group
 
 - Add splunk group
 - Add splunk user
 
-#### Install / Upgrade Splunk UF
+##### Install / Upgrade Splunk UF
 
 - Stop Splunk Universal Forwarder
 - Unpack Splunk Universal Forwarder TGZ file

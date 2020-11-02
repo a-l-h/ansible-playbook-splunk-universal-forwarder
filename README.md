@@ -7,7 +7,7 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Red Hat server
 - Any unmanageable configuration file is removed from `/etc/system/local`
 - As it is not needed in most scenarios, admin password is randomized
 
-**Content**
+**Tree view**
 ```
 📦 ansible-playbook-splunk-universal-forwarder
  ┣ 📂 roles

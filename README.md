@@ -43,8 +43,8 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers 
 
 ##### Install / Upgrade Splunk UF
 
-- Stop Splunk Universal Forwarder
-- Unpack Splunk Universal Forwarder TGZ file
+- Stop Splunk UF if needed
+- Unpack Splunk UF TGZ file
 - Create Deployment Client base App
 - Remove any unneeded configuration file from `/etc/system/local`
 - Transfer `/opt/splunkforwarder` ownership to splunk user
@@ -54,7 +54,7 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers 
 
 ## Use the playbook
 
-1. Clone repository from your Ansible Controller server
+1. Clone repository from your Ansible controller server
 
 ```
 git clone https://github.com/a-l-h/ansible-playbook-splunk-universal-forwarder.git

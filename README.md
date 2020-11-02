@@ -1,6 +1,11 @@
 # ![](logo.svg) Ansible Playbook for Splunk Universal Forwarder
 
-Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers
+Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers following Splunk best practices:
+
+- The only App configured locally on the forwarder is the Deployement Client App
+- This App is used to reach the Deployment Server
+- Every other configuration is managed from the Deployment Server
+- No unmanageable configuration file is allowed in /etc/system/local
 
 **Content**
 ```
@@ -22,22 +27,30 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers
 
 ## Playbook main steps
 
+### On Ansible controller
+
+- Download Splunk UF latest version
+- Check MD5 hash
+
+### On target servers
+
+########## Check target server redhat x64c 64-bit server
+
 #### User/Group
 
-- Add group
-- Add user
+- Add splunk group
+- Add splunk user
 
-#### Install / Upgrade Splunk Universal Forwarder
+#### Install / Upgrade Splunk UF
 
 - Stop Splunk Universal Forwarder
-- Unpack Splunk Universal Forwarder tgz file
-- Unpack Deployment Client base App to `/etc/apps`
-- **rename deployment client app**
-- Add the Deployment Server URI to `deploymentclient.conf`
+- Unpack Splunk Universal Forwarder TGZ file
+- Create Deployment Client base App
 - Remove any unneeded configuration file from `/etc/system/local`
-- Transfer `/apps/splunkcx2/splunkforwarder` ownership to `<splunk_user>` user
+- Transfer `/apps/splunkcx2/splunkforwarder` ownership to splunk user
 - Set Splunk user bash profile
 - Start Splunk, accept license and set a random admin password
+- Set OS to start Splunk UF at boot time
 
 ## Use the playbook
 

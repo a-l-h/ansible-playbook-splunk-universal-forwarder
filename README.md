@@ -49,8 +49,8 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers 
 - Create Deployment Client base App
 - Remove any unneeded configuration file from `/etc/system/local`
 - Transfer `/opt/splunkforwarder` ownership to splunk user
-- Set Splunk user bash profile
-- Start Splunk, accept license and set a random admin password
+- Set Splunk UF user bash profile
+- Start Splunk UF, accept license and set a random admin password
 - Set OS to start Splunk UF at boot time
 
 ## Use the playbook
@@ -93,3 +93,9 @@ git clone https://github.com/a-l-h/ansible-playbook-splunk-universal-forwarder.g
 ```
 ansible-playbook -i <inventory> ansible-playbook-splunk-universal-forwarder/deploy-splunk_uf.yml -v
 ```
+
+5. Push your own Apps from the Deployment Server
+
+- An App that outputs data to your Splunk Indexer(s) (outputs.conf)
+- Apps that handle data inputs (inputs.conf)
+- And App that disables Splunk UF management port because it is not used

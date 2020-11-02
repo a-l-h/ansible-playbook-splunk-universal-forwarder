@@ -16,14 +16,14 @@
     path: "{{ splunk_uf_install_dir }}/splunkforwarder"
   register: splunk_uf_path
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
  
 - name: Read /etc/splunk.version file, if any
   slurp:
     src: "{{ splunk_uf_install_dir }}/splunkforwarder/etc/splunk.version"
   register: splunk_uf_version
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
   when: splunk_uf_path.stat.exists == true
  
 - name: Get Splunk UF current version for /etc/splunk.version, if installed
@@ -47,7 +47,7 @@
   group:
     name: "{{ splunk_uf_user_group }}"
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
  
 - name: Add the user '{{ splunk_uf_user }}' and add it to '{{ splunk_uf_user_group }}' group
   user:
@@ -55,7 +55,7 @@
     group: "{{ splunk_uf_user_group }}"
     append: yes
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
 
 ########## Install Splunk UF
 
@@ -70,7 +70,7 @@
     src: "{{ playbook_dir }}/roles/forwarders/files/{{ hostvars['127.0.0.1'].splunk_uf_tgz_filename }}"
     dest: "{{ splunk_uf_install_dir }}"
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
   when: splunk_uf_current_version is undefined or hostvars['127.0.0.1'].splunk_uf_tgz_version[0] is version(splunk_uf_current_version[0], '>')
  
 ########## Manage Deployment Client base App
@@ -81,7 +81,7 @@
     state: directory
     mode: 0755
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
 
 - name: Create {{ splunk_uf_install_dir }}/splunkforwarder/etc/apps/{{ company_acronym }}_all_deploymentclient/local directory
   file:
@@ -89,7 +89,7 @@
     state: directory
     mode: 0755
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
     
 - name: Create {{ splunk_uf_install_dir }}/splunkforwarder/etc/apps/{{ company_acronym }}_all_deploymentclient/metadata directory
   file:
@@ -97,7 +97,7 @@
     state: directory
     mode: 0755
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
 
 - name: Create app.conf within '{{ splunk_uf_install_dir }}/splunkforwarder/etc/apps/{{ company_acronym }}_all_deploymentclient/local'
   copy:
@@ -114,7 +114,7 @@
     dest: "{{ splunk_uf_install_dir }}/splunkforwarder/etc/apps/{{ company_acronym }}_all_deploymentclient/local/app.conf"
     mode: 0644
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
 
 - name: Create deploymentclient.conf within '{{ splunk_uf_install_dir }}/splunkforwarder/etc/apps/{{ company_acronym }}_all_deploymentclient/local'
   copy:
@@ -126,7 +126,7 @@
     dest: "{{ splunk_uf_install_dir }}/splunkforwarder/etc/apps/{{ company_acronym }}_all_deploymentclient/local/deploymentclient.conf"
     mode: 0644
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
 
 - name: Create local.meta within '{{ splunk_uf_install_dir }}/splunkforwarder/etc/apps/{{ company_acronym }}_all_deploymentclient/metadata'
   copy:
@@ -137,7 +137,7 @@
     dest: "{{ splunk_uf_install_dir }}/splunkforwarder/etc/apps/{{ company_acronym }}_all_deploymentclient/metadata/local.meta"
     mode: 0644
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
    
 ########## Clean /etc/system/local directory
  
@@ -152,7 +152,7 @@
       - "README"
   register: system_local_conf_files_to_remove
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
  
 - name: Remove captured files
   file:
@@ -160,7 +160,7 @@
     state: absent
   with_items: "{{ system_local_conf_files_to_remove['files'] }}"
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
  
 ########## Manage Splunk UF directory ownership
  
@@ -172,7 +172,7 @@
     owner: "{{ splunk_uf_user }}"
     group: "{{ splunk_uf_user_group }}"
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
  
 ########## Set bash profile
  
@@ -189,7 +189,7 @@
     group: "{{ splunk_uf_user_group }}"
     mode: 0644
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
  
 ########## Start Splunk UF
  
@@ -197,19 +197,19 @@
   shell: "{{ splunk_uf_install_dir }}/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt --seed-passwd `head -c 500 /dev/urandom | sha256sum | base64 | head -c 16 ; echo`"
   become: yes
   become_user: "{{ splunk_uf_user }}"
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
   when: splunk_uf_current_version is undefined or hostvars['127.0.0.1'].splunk_uf_tgz_version[0] is version(splunk_uf_current_version[0], '>')
   
 - name: Set OS to start Splunk UF at boot time
   command: "{{ splunk_uf_install_dir }}/splunkforwarder/bin/splunk enable boot-start -user {{ splunk_uf_user }}"
   become: yes
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
   when: splunk_uf_initd.stat.exists == false
    
 - name: Start Splunk if it was already up to date but not running
   command: "{{ splunk_uf_install_dir }}/splunkforwarder/bin/splunk start"
   become: yes
   become_user: "{{ splunk_uf_user }}"
-  become_method: "{{ hostvars['127.0.0.1'].splunk_uf_become_method }}"
+  become_method: "{{ splunk_uf_become_method }}"
   when: splunk_uf_status.stdout == "0" and splunk_uf_path.stat.exists == true and hostvars['127.0.0.1'].splunk_uf_tgz_version[0] is version(splunk_uf_current_version[0], '<=')
 ...

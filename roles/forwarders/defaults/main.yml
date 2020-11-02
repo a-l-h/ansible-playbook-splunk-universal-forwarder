@@ -3,7 +3,6 @@
 splunk_uf_install_dir: '/opt'
 splunk_uf_user: 'splunk'
 splunk_uf_user_group: 'splunk'
-splunk_uf_become_method: 'sudo'
 company_acronym: 'org'
 splunk_ds_fqdn: 'test'
 splunk_ds_port: '8089'

@@ -2,7 +2,7 @@
 
 Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers following Splunk best practices:
 
-- The only App configured locally on the forwarder is the Deployement Client App
+- The only App configured locally on the forwarder is the Deployment Client App
 - Every other configuration is managed from the Deployment Server
 - No unmanageable configuration file is allowed in /etc/system/local
 

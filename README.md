@@ -1,6 +1,6 @@
 # ![](logo.svg) Ansible Playbook for Splunk Universal Forwarder
 
-Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers following Splunk best practices:
+Use this Ansible Playbook to deploy Splunk Universal Forwarder on Red Hat servers following Splunk best practices:
 
 - The only App configured locally is the Deployment Client App
 - Every other configuration is managed from the Deployment Server

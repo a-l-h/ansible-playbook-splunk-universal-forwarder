@@ -54,7 +54,7 @@ Use this Ansible Playbook to deploy Splunk Universal Forwarder on Linux servers 
 
 ## Use the playbook
 
-1. Clone repository from your Ansible controller server
+1. Clone repository from your Ansible controller
 
 ```
 git clone https://github.com/a-l-h/ansible-playbook-splunk-universal-forwarder.git

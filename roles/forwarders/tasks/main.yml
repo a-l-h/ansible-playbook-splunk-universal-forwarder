@@ -26,7 +26,7 @@
   become_method: "{{ splunk_uf_become_method }}"
   when: splunk_uf_path.stat.exists == true
  
-- name: Get Splunk UF current version for /etc/splunk.version, if installed
+- name: Get Splunk UF current version from /etc/splunk.version, if installed
   set_fact: 
     splunk_uf_current_version: "{{ splunk_uf_version['content'] | b64decode | regex_findall('VERSION=([0-9.]+)') }}"
   when: splunk_uf_path.stat.exists == true

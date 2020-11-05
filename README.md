@@ -1,4 +1,4 @@
-# ![](logo.svg) Ansible Playbook for Splunk Universal Forwarder
+# ![](icon.svg) Ansible Playbook for Splunk Universal Forwarder
 
 Use this Ansible Playbook to deploy Splunk Universal Forwarder on Red Hat servers following Splunk best practices:
 
